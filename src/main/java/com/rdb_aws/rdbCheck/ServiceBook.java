@@ -19,9 +19,9 @@ public class ServiceBook {
     }
 
 
-//    public Optional<Enty> getId(String id) {
-//       return enty.stream().filter(x->x.getId() == id).findFirst();
-//    }
+    public Optional<Enty> getId(String id) {
+       return enty.stream().filter(x->x.getId() == id).findFirst();
+    }
 
 
     public void addBook(Enty ent) {
