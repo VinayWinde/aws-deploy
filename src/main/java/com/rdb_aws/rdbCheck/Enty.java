@@ -1,14 +1,13 @@
 package com.rdb_aws.rdbCheck;
 
-import jakarta.persistence.*;
 
-@Entity
-@Table(name="Book")
+
+
+
 public class Enty {
-    @Id
+
     public String id;
     public String bookname;
-
     public String rown;
 
     public Enty(String id, String bookname, String rown) {

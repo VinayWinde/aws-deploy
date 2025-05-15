@@ -12,22 +12,20 @@ import java.util.Optional;
 @RestController
 @RequestMapping("book")
 public class ControllerBook {
-
-    public ServiceBook serviceBook;
-@Autowired
-    public ControllerBook(ServiceBook serviceBook){
-        this.serviceBook=serviceBook;
-    }
+    @Autowired
+    private ServiceBook serviceBook;
 
 
     @GetMapping("/all")
-    public List<Enty> getAll() {
-    return  serviceBook.getall();
+    public ResponseEntity<List<Enty>> getAll() {
+        List<Enty> li=serviceBook.getall();
+        return  new ResponseEntity<>(li,HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public Optional<Enty> getId(@PathVariable String id) {
-        return serviceBook.getId(id);
+    public ResponseEntity<Optional<Enty>> getId(@PathVariable String id) {
+        Optional<Enty> op= serviceBook.getId(id);
+        return  new ResponseEntity<>(op,HttpStatus.OK);
     }
 
     @PostMapping("/addbook")
@@ -36,6 +34,11 @@ public class ControllerBook {
     return new ResponseEntity<>("ADDED",HttpStatus.ACCEPTED);
     }
 
+    @DeleteMapping("/del")
+    public ResponseEntity<String> delB(@PathVariable String id){
+    serviceBook.delBook(id);
+    return new ResponseEntity<>("DELETED",HttpStatus.OK);
+    }
 
 
 
