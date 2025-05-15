@@ -3,40 +3,30 @@ version: 0.2
 env:
   variables:
     REPOSITORY_URI: 927450005871.dkr.ecr.us-east-1.amazonaws.com/winde-registry
+    AWS_REGION: us-east-1
 
 phases:
   pre_build:
     commands:
-      - echo Running Maven clean install...
-      - mvn clean install
-      - echo Logging in to Amazon ECR...
-      - aws --version
-      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $REPOSITORY_URI
-      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
-      - IMAGE_TAG=build-$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}')
-      - echo COMMIT_HASH=$COMMIT_HASH
-      - echo IMAGE_TAG=$IMAGE_TAG
+      - echo "Verifying ECR repository exists..."
+      - aws ecr describe-repositories --repository-names winde-registry --region $AWS_REGION || aws ecr create-repository --repository-name winde-registry --region $AWS_REGION
+      - echo "Logging in to Amazon ECR..."
+      - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $REPOSITORY_URI
+      - export IMAGE_TAG=build-$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}')
+      - echo $IMAGE_TAG > image_tag.txt
 
   build:
     commands:
-      - echo Build started on `date`
-      - echo Building the Docker image...
+      - echo "Building Docker image..."
       - docker build -t $REPOSITORY_URI:latest .
-      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$(cat image_tag.txt)
 
   post_build:
     commands:
-      - echo Build completed on `date`
-      - echo Checking built Docker images...
-      - docker images
-      - echo Pushing Docker images to ECR...
+      - echo "Pushing Docker images..."
       - docker push $REPOSITORY_URI:latest
-      - docker push $REPOSITORY_URI:$IMAGE_TAG
-      - echo Writing imagedefinitions.json for deployment...
-      - DOCKER_CONTAINER_NAME=winde-registry
-      - printf '[{"name":"%s","imageUri":"%s"}]' "$DOCKER_CONTAINER_NAME" "$REPOSITORY_URI:$IMAGE_TAG" > imagedefinitions.json
-      - echo Printing imagedefinitions.json:
-      - cat imagedefinitions.json
+      - docker push $REPOSITORY_URI:$(cat image_tag.txt)
+      - printf '[{"name":"winde-registry","imageUri":"%s"}]' $REPOSITORY_URI:$(cat image_tag.txt) > imagedefinitions.json
 
 artifacts:
   files:
