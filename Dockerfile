@@ -1,5 +1,6 @@
 
 FROM public.ecr.aws/amazoncorretto/amazoncorretto:17
+
 WORKDIR /app
 # Copy the compiled Java application JAR file into the container
 COPY ./target/aws.jar /app

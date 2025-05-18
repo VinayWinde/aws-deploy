@@ -22,11 +22,11 @@ public class ControllerBook {
         return  new ResponseEntity<>(li,HttpStatus.OK);
     }
 
-//    @GetMapping("/{id}")
-//    public ResponseEntity<Optional<Enty>> getId(@PathVariable String id) {
-//        Optional<Enty> op= serviceBook.getId(id);
-//        return  new ResponseEntity<>(op,HttpStatus.OK);
-//    }
+    @GetMapping("/{id}")
+    public ResponseEntity<Optional<Enty>> getId(@PathVariable String id) {
+        Optional<Enty> op= serviceBook.getId(id);
+        return  new ResponseEntity<>(op,HttpStatus.OK);
+    }
 
     @PostMapping("/addbook")
     public ResponseEntity<String> add(@RequestBody Enty enty){
