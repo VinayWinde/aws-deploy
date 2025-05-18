@@ -15,6 +15,7 @@ public class ControllerBook {
     @Autowired
     private ServiceBook serviceBook;
 
+//    Spring Boot App → Docker Image → ECR → CodeBuild builds + pushes → ECS Task runs it
 
     @GetMapping("/all")
     public ResponseEntity<List<Enty>> getAll() {
