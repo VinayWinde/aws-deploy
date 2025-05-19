@@ -21,6 +21,9 @@ GitHub/CodeCommit ─▶ CodePipeline ─▶ CodeBuild ─▶ ECR
                                        │
                                 Public IP/Load Balancer
 
+
+
+
 🚀 How It Works
 ✅ 1. Code Commit → Pipeline Trigger
 Push to main branch → triggers CodePipeline
