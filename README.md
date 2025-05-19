@@ -1,13 +1,13 @@
 📦 Spring Boot App Deployment on AWS (Fargate + CodePipeline)
 This project demonstrates a CI/CD pipeline deploying a Spring Boot application to Amazon ECS (Fargate) using:
 
-AWS CodePipeline (CI/CD)
+1-AWS CodePipeline (CI/CD)
 
-AWS CodeBuild (Build & push Docker image)
+2-AWS CodeBuild (Build & push Docker image)
 
-Amazon ECR (Docker image storage)
+3-Amazon ECR (Docker image storage)
 
-Amazon ECS (Fargate) (Deployment platform)
+4-Amazon ECS (Fargate) (Deployment platform)
 
 🧱 Architecture Overview
 text
