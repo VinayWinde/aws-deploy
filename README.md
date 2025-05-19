@@ -25,6 +25,8 @@ GitHub/CodeCommit ─▶ CodePipeline ─▶ CodeBuild ─▶ ECR
 
 
 🚀 How It Works
+
+
 ✅ 1. Code Commit → Pipeline Trigger
 Push to main branch → triggers CodePipeline
 
